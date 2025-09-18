@@ -28,6 +28,7 @@ model Log {
 model Result {
   id            Int         @id @default(autoincrement())
   researchId    Int
+  source        String?
   title         String
   summary       String
   keywords      String   // JSON string
