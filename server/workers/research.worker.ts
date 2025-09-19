@@ -1,13 +1,10 @@
 import { Queue, Worker } from "bullmq";
 import { prisma } from "@/prisma";
 import { analyzeText } from "../ai";
-
-// Setup Redis connection
-const redisHost = process.env.REDIS_HOST || "localhost";
-const redisPort = Number(process.env.REDIS_PORT) || 6379;
+import { redisConfig } from "../radisConfig";
 
 export const researchQueue = new Queue("research", {
-   connection: { host: redisHost, port: redisPort },
+   connection: redisConfig
 });
 
 export async function addResearchJob(id: number, topic: string) {
@@ -89,7 +86,7 @@ new Worker(
       }
    },
    {
-      connection: { host: "localhost", port: 6379 },
+      connection: redisConfig,
       concurrency: 5,
    }
 );
