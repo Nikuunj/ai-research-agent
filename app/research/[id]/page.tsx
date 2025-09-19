@@ -2,8 +2,9 @@
 
 import { trpc } from "@/utils/trpc";
 
-export default function ResearchDetail({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export default async function ResearchDetail({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
   const research = trpc.research.getById.useQuery({ id });
 
   if (research.isLoading) return <p className="p-6">Loading...</p>;
